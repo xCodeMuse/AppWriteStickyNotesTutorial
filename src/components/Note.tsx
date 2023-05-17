@@ -31,7 +31,7 @@ const Note = ({ note }: Props) => {
     const getStickyColor = () => {
         const colorCodes: string[] = [
             "bg-[#c6f2a2]",
-            "bg-[#f2a2be]",
+            "bg-[#aea2f2]",
             "bg-[#7afcff]",
             "bg-[#feff9c]",
             "bg-[#fff740]",
