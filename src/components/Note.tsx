@@ -28,18 +28,43 @@ const Note = ({ note }: Props) => {
         const isDeleted = await remove(note.$id);
     };
 
+    const getStickyColor = () => {
+        const colorCodes: string[] = [
+            "bg-[#c6f2a2]",
+            "bg-[#f2a2be]",
+            "bg-[#7afcff]",
+            "bg-[#feff9c]",
+            "bg-[#fff740]",
+        ];
+
+        const index = Math.floor(Math.random() * colorCodes.length);
+
+        return colorCodes[index];
+    };
+
     return (
-        <div className={`rounded-md border`}>
-            <Link to={`/note/${note.$id}`}>
-                <img src={imgUrl} alt={note.title} className="h-[200px] w-full rounded-md object-cover" />
-            </Link>
-            <div className="p-4">
+        <div className={`rounded-lg border flex flex-wrap content-between ${getStickyColor()}`}>
+            <div className="relative w-full">
                 <Link to={`/note/${note.$id}`}>
-                    <h2 className="text-lg font-semibold">{note.title}</h2>
+                    <div className="p-4 pb-0">
+                        <img
+                            src={imgUrl}
+                            alt={note.title}
+                            className="h-[150px] w-full rounded-lg object-cover"
+                        />
+                    </div>
                 </Link>
+                <div className="pt-4 px-4">
+                    <Link to={`/note/${note.$id}`}>
+                        <h2 className="text-lg font-semibold">{note.title}</h2>
+                        <p className="text-sm text-gray-600">{note.description}</p>
+                    </Link>
+                </div>
+            </div>
+            <div className="pb-4 relative w-full px-4">
                 <button
                     type="button"
-                    className="mt-4 rounded-sm bg-black px-2.5 py-1 text-[10px] font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                    className="mt-4 px-4 rounded-lg bg-black py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-black/80 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
                     onClick={deleteNote}
                 >
                     Delete
