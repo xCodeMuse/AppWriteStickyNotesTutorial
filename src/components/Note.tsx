@@ -42,6 +42,17 @@ const Note = ({ note }: Props) => {
         return colorCodes[index];
     };
 
+    const getDate = (ISODate: string) => {
+        const date = new Date(ISODate);
+
+        return date.toLocaleTimeString("en-IN", {
+            day: "2-digit",
+            month: "2-digit",
+            year: "numeric",
+            // timeStyle: "full",
+        });
+    };
+
     return (
         <div className={`rounded-lg border flex flex-wrap content-between ${getStickyColor()}`}>
             <div className="relative w-full">
@@ -58,6 +69,10 @@ const Note = ({ note }: Props) => {
                     <Link to={`/note/${note.$id}`}>
                         <h2 className="text-lg font-semibold">{note.title}</h2>
                         <p className="text-sm text-gray-600">{note.description}</p>
+                        <p className="text-sm mt-3">
+                            <span className="font-semibolg">Created: </span>
+                            <span className="text-gray-600">{getDate(note.$createdAt)}</span>
+                        </p>
                     </Link>
                 </div>
             </div>

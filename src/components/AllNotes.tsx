@@ -6,9 +6,9 @@ const AllNotes = () => {
     const { notes } = useNote();
 
     return (
-        <div className="flex flex-wrap justify-center gap-4">
+        <div className="flex flex-wrap gap-y-4">
             {notes.map((note) => (
-                <div className="w-full sm:w-1/2 md:w-1/3 lg:1/4 xl:w-1/5 h-full" key={note.$id}>
+                <div className="w-full px-2 md:w-1/2 lg:w-1/3 xl:w-1/4 h-full" key={note.$id}>
                     <Note note={note} />
                 </div>
             ))}
