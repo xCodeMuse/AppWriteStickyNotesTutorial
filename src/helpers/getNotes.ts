@@ -1,10 +1,10 @@
 import { database } from "../appwrite/config";
 import { APPWRITE_COLLECTION_ID, APPWRITE_DATABASE_ID } from "../constant";
-import { DBNote } from "../interfaces/Note";
+import { IDBNote } from "../interfaces/Note";
 
 export const getNotes = async () => {
     try {
-        const note = await database.listDocuments<DBNote>(APPWRITE_DATABASE_ID, APPWRITE_COLLECTION_ID);
+        const note = await database.listDocuments<IDBNote>(APPWRITE_DATABASE_ID, APPWRITE_COLLECTION_ID);
 
         return note;
     } catch (error: any) {

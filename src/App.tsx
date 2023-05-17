@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { NoteProvider } from "./contexts/Note";
-import { DBNote, Note } from "./interfaces/Note";
+import { IDBNote, INote } from "./interfaces/Note";
 import getNotes from "./helpers/getNotes";
 import createNote from "./helpers/createNote";
 import updateNote from "./helpers/updateNote";
@@ -8,9 +8,9 @@ import deleteNote from "./helpers/deleteNote";
 import { Outlet } from "react-router-dom";
 
 function App() {
-    const [notes, setNotes] = useState<DBNote[]>([]);
+    const [notes, setNotes] = useState<IDBNote[]>([]);
 
-    const addNote = useCallback(async (note: Note) => {
+    const addNote = useCallback(async (note: INote) => {
         const resNote = await createNote(note);
 
         if (resNote) {
@@ -21,7 +21,7 @@ function App() {
         return false;
     }, []);
 
-    const modifyNote = useCallback(async (noteId: string, updatedNote: Partial<Note>) => {
+    const modifyNote = useCallback(async (noteId: string, updatedNote: Partial<INote>) => {
         const resNote = await updateNote(noteId, updatedNote);
 
         if (resNote) {
@@ -50,7 +50,7 @@ function App() {
     }, []);
 
     return (
-        <NoteProvider value={{ notes, add: addNote, update: modifyNote, delete: removeNote }}>
+        <NoteProvider value={{ notes, add: addNote, modify: modifyNote, remove: removeNote }}>
             <Outlet />
         </NoteProvider>
     );

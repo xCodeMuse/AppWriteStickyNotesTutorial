@@ -1,4 +1,4 @@
-export interface Document {
+export interface IDocument {
     $collectionId: string;
     $createdAt: string;
     $databaseId: string;
@@ -7,10 +7,11 @@ export interface Document {
     $updatedAt: string;
 }
 
-export interface Note {
+export interface INote {
     title: string;
+    description: string;
     imageId: string;
     expireAt: string;
 }
 
-export interface DBNote extends Document, Note {}
+export interface IDBNote extends IDocument, INote {}

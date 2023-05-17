@@ -1,10 +1,10 @@
 import { database } from "../appwrite/config";
 import { APPWRITE_COLLECTION_ID, APPWRITE_DATABASE_ID } from "../constant";
-import { DBNote, Note } from "../interfaces/Note";
+import { IDBNote, INote } from "../interfaces/Note";
 
-export const updateNote = async (noteId: string, updatedNote: Partial<Note>) => {
+export const updateNote = async (noteId: string, updatedNote: Partial<INote>) => {
     try {
-        const dbNote = await database.updateDocument<DBNote>(
+        const dbNote = await database.updateDocument<IDBNote>(
             APPWRITE_DATABASE_ID,
             APPWRITE_COLLECTION_ID,
             noteId,
