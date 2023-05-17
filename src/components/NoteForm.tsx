@@ -1,13 +1,20 @@
-import React, { FormEvent, useRef, useState } from "react";
+import React, { FormEvent, useEffect, useRef, useState } from "react";
 import uploadImage from "../helpers/uploadImage";
 import useNote from "../contexts/useNote";
+import { IDBNote } from "../interfaces/Note";
 
-const AddNoteForm = () => {
+type Props = {
+    note?: IDBNote;
+    created?: () => void;
+    updated?: () => void;
+};
+
+const NoteForm = ({ note, created, updated }: Props) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [expireAt, setExpireAt] = useState<Date>(new Date());
 
-    const { add } = useNote();
+    const { add, modify } = useNote();
 
     const imageRef = useRef<HTMLInputElement>(null);
 
@@ -25,23 +32,34 @@ const AddNoteForm = () => {
         const noteObj = {
             title,
             description,
-            imageId,
+            imageId: imageId ? imageId : note?.imageId || "",
             expireAt: expireAt.toISOString(),
         };
 
-        const isAdded = await add(noteObj);
+        const isDone = note ? await modify(note.$id, noteObj) : await add(noteObj);
 
-        if (isAdded) {
+        if (isDone) {
             setTitle("");
             setDescription("");
             setExpireAt(new Date());
             if (imageRef.current) imageRef.current.value = "";
+
+            if (note && updated) updated();
+            if (created) created();
         }
     };
 
+    useEffect(() => {
+        if (note) {
+            setTitle(note.title);
+            setDescription(note.description);
+            setExpireAt(new Date(note.expireAt));
+        }
+    }, [note]);
+
     return (
         <form onSubmit={submit} className="relative">
-            <h2 className="text-2xl mb-3 font-semibold">Add New Note</h2>
+            <h2 className="text-2xl mb-3 font-semibold">{note ? "Update" : "Add New"} Note</h2>
 
             <input
                 type="text"
@@ -66,12 +84,14 @@ const AddNoteForm = () => {
 
             <button
                 type="submit"
-                className="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800 w-full"
+                className={`focus:outline-none text-white ${
+                    note ? "bg-blue-600 hover:bg-blue-800" : "bg-green-600 hover:bg-green-800"
+                } focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 w-full`}
             >
-                Add Note
+                {note ? "Update Note" : "Add Note"}
             </button>
         </form>
     );
 };
 
-export default AddNoteForm;
+export default NoteForm;

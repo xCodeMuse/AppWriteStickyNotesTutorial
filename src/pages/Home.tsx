@@ -1,7 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import AllNotes from "../components/AllNotes";
-import AddNoteForm from "../components/AddNoteForm";
+import AddNoteForm from "../components/NoteForm";
 
 const Home = () => {
     return (
