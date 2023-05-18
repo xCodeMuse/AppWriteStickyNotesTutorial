@@ -4,6 +4,7 @@ import NoteForm from "../components/NoteForm";
 import useNote from "../contexts/useNote";
 import { IDBNote } from "../interfaces/Note";
 import getImageUrl from "../helpers/getImageUrl";
+import getNote from "../helpers/getNote";
 
 const Note = () => {
     const [imgUrl, setImgUrl] = useState<string>();
@@ -15,19 +16,27 @@ const Note = () => {
     const { notes } = useNote();
 
     useEffect(() => {
-        const filteredNote = notes.filter((note) => note.$id === id)[0];
+        const run = async () => {
+            let filteredNote: IDBNote | null = notes.filter((note) => note.$id === id)[0];
 
-        if (!id || !filteredNote) {
-            navigate("/");
-            return;
-        }
+            if (id && !filteredNote) {
+                filteredNote = await getNote(id);
+            }
 
-        setNote(filteredNote);
+            if (!id || !filteredNote) {
+                navigate("/");
+                return;
+            }
 
-        if (filteredNote.imageId) {
-            const imgUrl = getImageUrl(filteredNote.imageId);
-            setImgUrl(imgUrl);
-        }
+            setNote(filteredNote);
+
+            if (filteredNote.imageId) {
+                const imgUrl = getImageUrl(filteredNote.imageId);
+                setImgUrl(imgUrl);
+            }
+        };
+
+        run();
     }, [id, navigate, notes]);
 
     const updated = () => {
