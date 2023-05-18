@@ -47,7 +47,7 @@ const Note = () => {
             <div className="relative pt-40 flex">
                 <div className="w-full max-w-5xl bg-white mx-auto p-4 rounded-lg relative">
                     <div className="flex flex-wrap">
-                        <div className="w-full md:w-1/2 p-2">
+                        <div className="w-full md:w-1/2 p-2 flex items-center justify-center">
                             <img src={imgUrl} alt={note?.title} className="rounded-lg border" />
                         </div>
                         <div className="w-full md:w-1/2 p-2">
