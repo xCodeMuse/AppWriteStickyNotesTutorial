@@ -13,7 +13,7 @@ const Home = () => {
                     </div>
                 </div>
 
-                <div className="w-full sm:w-1/2 md:w-2/3 lg:w-3/4 xl:w-3/4 px-2 sm:border-l">
+                <div className="w-full sm:w-1/2 md:w-2/3 lg:w-3/4 xl:w-4/5 px-2 sm:border-l">
                     <AllNotes />
                 </div>
             </div>
