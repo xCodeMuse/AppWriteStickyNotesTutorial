@@ -2,6 +2,7 @@ import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "reac
 import uploadImage from "../helpers/uploadImage";
 import useNote from "../contexts/useNote";
 import { IDBNote } from "../interfaces/Note";
+import deleteImage from "../helpers/deleteImage";
 
 type Props = {
     note?: IDBNote;
@@ -25,6 +26,8 @@ const NoteForm = ({ note, created, updated }: Props) => {
         let imageId = "";
 
         if (imageRef.current?.files && imageRef.current.files.length > 0) {
+            if (note && note.imageId) deleteImage(note.imageId);
+
             const uploadedImage = await uploadImage(imageRef.current.files[0]);
 
             if (uploadedImage) imageId = uploadedImage.$id;
