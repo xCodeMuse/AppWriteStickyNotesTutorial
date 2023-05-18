@@ -47,9 +47,9 @@ To configure Appwrite in your project, follow these steps:
 
 In this file, we have provided the essential credentials like the Appwrite project ID, database ID, collection ID, and endpoint. These credentials are crucial for establishing a secure connection with the Appwrite backend and facilitating effective data management within your project.
 
-## ./context
+## ./contexts
 
-In this directory, you will find the NoteContext, responsible for efficient management of notes within the local memory. Additionally, the LoaderContext provides comprehensive control over the global loader. To know more, [click here](./src/context/README.md)
+In this directory, you will find the NoteContext, responsible for efficient management of notes within the local memory. Additionally, the LoaderContext provides comprehensive control over the global loader. To know more, [click here](./src/contexts/README.md)
 
 ## ./helpers
 
