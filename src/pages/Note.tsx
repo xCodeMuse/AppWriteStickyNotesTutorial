@@ -45,12 +45,12 @@ const Note = () => {
                 </Link>
             </div>
             <div className="relative pt-40 flex">
-                <div className="w-full max-w-5xl bg-white mx-auto p-4 rounded-lg relative">
+                <div className="w-full max-w-4xl bg-white mx-auto p-4 rounded-lg relative">
                     <div className="flex flex-wrap">
-                        <div className="w-full md:w-1/2 p-2 flex items-center justify-center">
+                        <div className="w-full md:w-1/2 lg:w-3/5 p-2 flex items-center justify-center">
                             <img src={imgUrl} alt={note?.title} className="rounded-lg border" />
                         </div>
-                        <div className="w-full md:w-1/2 p-2">
+                        <div className="w-full md:w-1/2 lg:w-2/5 p-2">
                             <NoteForm note={note} updated={updated} />
                         </div>
                     </div>

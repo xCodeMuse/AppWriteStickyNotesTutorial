@@ -78,6 +78,10 @@ const NoteForm = ({ note, created, updated }: Props) => {
         }
     }, [note]);
 
+    useEffect(() => {
+        setImagePreviewUrl("/image-placeholder.avif");
+    }, []);
+
     return (
         <form onSubmit={submit} className="relative">
             <h2 className="text-2xl mb-3 font-semibold">{note ? "Update" : "Sticky"} Note</h2>
@@ -107,16 +111,12 @@ const NoteForm = ({ note, created, updated }: Props) => {
                 required
             />
 
-            <label className="w-full flex flex-col items-center bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-black hover:text-white ease-linear transition-all duration-150 mb-3">
+            <label className="w-full flex flex-col items-center bg-[#f2f2f2] rounded-md border tracking-wide cursor-pointer ease-linear transition-all duration-150 mb-3">
                 {imagePreviewUrl ? (
                     <div className="rounded overflow-hidden">
-                        <img src={imagePreviewUrl} alt={imagePreviewUrl} />
+                        <img src={imagePreviewUrl} alt={imagePreviewUrl} className="h-44" />
                     </div>
-                ) : (
-                    <span className="my-2 text-base leading-normal">
-                        {note ? "Change thumbnail" : "Select thumbnail"}
-                    </span>
-                )}
+                ) : null}
 
                 <input type="file" className="hidden" ref={imageRef} onChange={fileSelected} />
             </label>
