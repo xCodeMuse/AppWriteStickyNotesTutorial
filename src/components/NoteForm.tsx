@@ -4,6 +4,7 @@ import useNote from "../contexts/useNote";
 import { IDBNote } from "../interfaces/Note";
 import deleteImage from "../helpers/deleteImage";
 import toDatetimeLocalFormat from "../helpers/toDatetimeLocalFormat";
+import useLoader from "../contexts/useLoader";
 
 type Props = {
     note?: IDBNote;
@@ -17,12 +18,15 @@ const NoteForm = ({ note, created, updated }: Props) => {
     const [expireAt, setExpireAt] = useState("");
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
+    const loader = useLoader();
+
     const { add, modify } = useNote();
 
     const imageRef = useRef<HTMLInputElement>(null);
 
     const submit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        loader(true);
 
         let imageId = "";
 
@@ -53,6 +57,8 @@ const NoteForm = ({ note, created, updated }: Props) => {
             if (note && updated) updated();
             if (created) created();
         }
+
+        loader(false);
     };
 
     const fileSelected = (e: ChangeEvent<HTMLInputElement>) => {

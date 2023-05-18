@@ -5,10 +5,13 @@ import useNote from "../contexts/useNote";
 import { IDBNote } from "../interfaces/Note";
 import getImageUrl from "../helpers/getImageUrl";
 import getNote from "../helpers/getNote";
+import useLoader from "../contexts/useLoader";
 
 const Note = () => {
     const [imgUrl, setImgUrl] = useState<string>();
     const [note, setNote] = useState<IDBNote>();
+
+    const loader = useLoader();
 
     const { id } = useParams();
     const navigate = useNavigate();
@@ -20,7 +23,11 @@ const Note = () => {
             let filteredNote: IDBNote | null = notes.filter((note) => note.$id === id)[0];
 
             if (id && !filteredNote) {
+                loader(true);
+
                 filteredNote = await getNote(id);
+
+                loader(false);
             }
 
             if (!id || !filteredNote) {

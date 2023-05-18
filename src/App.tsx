@@ -7,9 +7,11 @@ import updateNote from "./helpers/updateNote";
 import deleteNote from "./helpers/deleteNote";
 import { Outlet } from "react-router-dom";
 import deleteImage from "./helpers/deleteImage";
+import { LoaderProvider } from "./contexts/Loader";
 
 function App() {
     const [notes, setNotes] = useState<IDBNote[]>([]);
+    const [loader, setLoader] = useState(false);
 
     const addNote = useCallback(async (note: INote) => {
         const resNote = await createNote(note);
@@ -47,14 +49,31 @@ function App() {
     }, []);
 
     useEffect(() => {
-        getNotes().then((notesDocument) => {
-            if (notesDocument) setNotes(notesDocument.documents);
-        });
+        setLoader(true);
+        getNotes()
+            .then((notesDocument) => {
+                if (notesDocument) setNotes(notesDocument.documents);
+            })
+            .finally(() => setLoader(false));
     }, []);
 
     return (
         <NoteProvider value={{ notes, add: addNote, modify: modifyNote, remove: removeNote }}>
-            <Outlet />
+            <LoaderProvider value={setLoader}>
+                <Outlet />
+            </LoaderProvider>
+            {loader && (
+                <div className="fixed inset-0 z-50 flex justify-center items-center bg-white/80">
+                    <div
+                        className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] text-success motion-reduce:animate-[spin_1.5s_linear_infinite]"
+                        role="status"
+                    >
+                        <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+                            Loading...
+                        </span>
+                    </div>
+                </div>
+            )}
         </NoteProvider>
     );
 }

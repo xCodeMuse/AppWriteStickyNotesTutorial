@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import getImageUrl from "../helpers/getImageUrl";
 import useNote from "../contexts/useNote";
 import calcPercentageOfDates from "../helpers/calcPercentageOfDates";
+import useLoader from "../contexts/useLoader";
 
 type Props = {
     note: IDBNote;
@@ -14,6 +15,7 @@ const Note = ({ note }: Props) => {
     const [expiryPercentage, setExpiryPercentage] = useState(0);
 
     const { remove } = useNote();
+    const loader = useLoader();
 
     const setRandomImage = useCallback(async () => {
         const { url } = await fetch("https://picsum.photos/500/300");
@@ -31,7 +33,11 @@ const Note = ({ note }: Props) => {
     }, [note, setRandomImage]);
 
     const deleteNote = async () => {
+        loader(true);
+
         const isDeleted = await remove(note.$id, note.imageId);
+
+        loader(false);
     };
 
     const getStickyColor = () => {
