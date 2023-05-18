@@ -80,7 +80,7 @@ const NoteForm = ({ note, created, updated }: Props) => {
 
     return (
         <form onSubmit={submit} className="relative">
-            <h2 className="text-2xl mb-3 font-semibold">{note ? "Update" : "Add New"} Note</h2>
+            <h2 className="text-2xl mb-3 font-semibold">{note ? "Update" : "Sticky"} Note</h2>
 
             <input
                 type="text"
