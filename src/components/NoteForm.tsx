@@ -113,7 +113,9 @@ const NoteForm = ({ note, created, updated }: Props) => {
                         <img src={imagePreviewUrl} alt={imagePreviewUrl} />
                     </div>
                 ) : (
-                    <span className="my-2 text-base leading-normal">Select a thumbnail</span>
+                    <span className="my-2 text-base leading-normal">
+                        {note ? "Change thumbnail" : "Select thumbnail"}
+                    </span>
                 )}
 
                 <input type="file" className="hidden" ref={imageRef} onChange={fileSelected} />
