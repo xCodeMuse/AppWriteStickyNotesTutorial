@@ -67,8 +67,6 @@ const NoteForm = ({ note, created, updated }: Props) => {
             }
 
             setImagePreviewUrl(URL.createObjectURL(file));
-        } else {
-            setImagePreviewUrl(null);
         }
     };
 
@@ -109,18 +107,17 @@ const NoteForm = ({ note, created, updated }: Props) => {
                 required
             />
 
-            {imagePreviewUrl ? (
-                <div className="rounded overflow-hidden mb-3">
-                    <img src={imagePreviewUrl} alt={imagePreviewUrl} />
-                </div>
-            ) : null}
+            <label className="w-full flex flex-col items-center bg-white rounded-md shadow-md tracking-wide border border-blue cursor-pointer hover:bg-black hover:text-white ease-linear transition-all duration-150 mb-3">
+                {imagePreviewUrl ? (
+                    <div className="rounded overflow-hidden">
+                        <img src={imagePreviewUrl} alt={imagePreviewUrl} />
+                    </div>
+                ) : (
+                    <span className="my-2 text-base leading-normal">Select a thumbnail</span>
+                )}
 
-            <input
-                className="block w-full p-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 mb-3"
-                type="file"
-                ref={imageRef}
-                onChange={fileSelected}
-            />
+                <input type="file" className="hidden" ref={imageRef} onChange={fileSelected} />
+            </label>
 
             <button
                 type="submit"
