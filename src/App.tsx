@@ -6,6 +6,7 @@ import createNote from "./helpers/createNote";
 import updateNote from "./helpers/updateNote";
 import deleteNote from "./helpers/deleteNote";
 import { Outlet } from "react-router-dom";
+import deleteImage from "./helpers/deleteImage";
 
 function App() {
     const [notes, setNotes] = useState<IDBNote[]>([]);
@@ -32,10 +33,12 @@ function App() {
         return false;
     }, []);
 
-    const removeNote = useCallback(async (noteId: string) => {
-        const res = await deleteNote(noteId);
+    const removeNote = useCallback(async (noteId: string, imageId?: string) => {
+        const isNoteDeleted = await deleteNote(noteId);
 
-        if (res) {
+        if (imageId) deleteImage(imageId);
+
+        if (isNoteDeleted) {
             setNotes((prev) => prev.filter((note) => note.$id !== noteId));
             return true;
         }

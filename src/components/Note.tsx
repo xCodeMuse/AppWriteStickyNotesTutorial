@@ -25,7 +25,7 @@ const Note = ({ note }: Props) => {
     }, [note, setRandomImage]);
 
     const deleteNote = async () => {
-        const isDeleted = await remove(note.$id);
+        const isDeleted = await remove(note.$id, note.imageId);
     };
 
     const getStickyColor = () => {
@@ -49,7 +49,6 @@ const Note = ({ note }: Props) => {
             day: "2-digit",
             month: "2-digit",
             year: "numeric",
-            // timeStyle: "full",
         });
     };
 
