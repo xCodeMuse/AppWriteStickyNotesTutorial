@@ -3,6 +3,7 @@ import uploadImage from "../helpers/uploadImage";
 import useNote from "../contexts/useNote";
 import { IDBNote } from "../interfaces/Note";
 import deleteImage from "../helpers/deleteImage";
+import toDatetimeLocalFormat from "../helpers/toDatetimeLocalFormat";
 
 type Props = {
     note?: IDBNote;
@@ -13,7 +14,7 @@ type Props = {
 const NoteForm = ({ note, created, updated }: Props) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [expireAt, setExpireAt] = useState<Date>(new Date());
+    const [expireAt, setExpireAt] = useState("");
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
     const { add, modify } = useNote();
@@ -37,7 +38,7 @@ const NoteForm = ({ note, created, updated }: Props) => {
             title,
             description,
             imageId: imageId ? imageId : note?.imageId || "",
-            expireAt: expireAt.toISOString(),
+            expireAt: new Date(expireAt).toISOString(),
         };
 
         const isDone = note ? await modify(note.$id, noteObj) : await add(noteObj);
@@ -46,7 +47,7 @@ const NoteForm = ({ note, created, updated }: Props) => {
             setTitle("");
             setDescription("");
             setImagePreviewUrl(null);
-            setExpireAt(new Date());
+            setExpireAt("");
             if (imageRef.current) imageRef.current.value = "";
 
             if (note && updated) updated();
@@ -75,7 +76,7 @@ const NoteForm = ({ note, created, updated }: Props) => {
         if (note) {
             setTitle(note.title);
             setDescription(note.description);
-            setExpireAt(new Date(note.expireAt));
+            setExpireAt(toDatetimeLocalFormat(new Date(note.expireAt)));
         }
     }, [note]);
 
@@ -89,6 +90,7 @@ const NoteForm = ({ note, created, updated }: Props) => {
                 onChange={(e) => setTitle(e.target.value)}
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 mb-3"
                 placeholder="Title"
+                required
             />
 
             <textarea
@@ -96,7 +98,16 @@ const NoteForm = ({ note, created, updated }: Props) => {
                 placeholder="Description"
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
+                required
             ></textarea>
+
+            <input
+                className="block w-full p-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 mb-3"
+                type="datetime-local"
+                value={expireAt}
+                onChange={(e) => setExpireAt(e.target.value)}
+                required
+            />
 
             {imagePreviewUrl ? (
                 <div className="rounded overflow-hidden mb-3">

@@ -3,6 +3,7 @@ import { IDBNote } from "../interfaces/Note";
 import { Link } from "react-router-dom";
 import getImageUrl from "../helpers/getImageUrl";
 import useNote from "../contexts/useNote";
+import calcPercentageOfDates from "../helpers/calcPercentageOfDates";
 
 type Props = {
     note: IDBNote;
@@ -10,6 +11,7 @@ type Props = {
 
 const Note = ({ note }: Props) => {
     const [imgUrl, setImgUrl] = useState<string>();
+    const [expiryPercentage, setExpiryPercentage] = useState(0);
 
     const { remove } = useNote();
 
@@ -22,6 +24,10 @@ const Note = ({ note }: Props) => {
     useEffect(() => {
         if (note.imageId) setImgUrl(getImageUrl(note.imageId));
         else setRandomImage();
+
+        const percentage = calcPercentageOfDates(new Date(note.$createdAt), new Date(note.expireAt));
+
+        setExpiryPercentage(percentage);
     }, [note, setRandomImage]);
 
     const deleteNote = async () => {
@@ -73,6 +79,22 @@ const Note = ({ note }: Props) => {
                             <span className="text-gray-600">{getDate(note.$createdAt)}</span>
                         </p>
                     </Link>
+                </div>
+                <div className="relative px-4 mt-2">
+                    <div className="w-full bg-gray-300 rounded-full h-1.5">
+                        <div
+                            className="bg-black h-1.5 rounded-full"
+                            style={{
+                                width: `${expiryPercentage}%`,
+                            }}
+                        ></div>
+                    </div>
+                    <p className="text-sm mt-1">
+                        {expiryPercentage < 50 && "You've got enough time"}
+                        {expiryPercentage >= 50 && expiryPercentage < 80 && "You don't have much time"}
+                        {expiryPercentage >= 80 && expiryPercentage < 100 && "Hurry Up!"}
+                        {expiryPercentage === 100 && "Time Up!"}
+                    </p>
                 </div>
             </div>
             <div className="pb-4 relative w-full px-4">
