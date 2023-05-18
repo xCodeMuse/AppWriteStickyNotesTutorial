@@ -44,7 +44,7 @@ const Note = () => {
                     X
                 </Link>
             </div>
-            <div className="relative pt-40 flex">
+            <div className="absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] flex">
                 <div className="w-full max-w-4xl bg-white mx-auto p-4 rounded-lg relative">
                     <div className="flex flex-wrap">
                         <div className="w-full md:w-1/2 lg:w-3/5 p-2 flex items-center justify-center">
