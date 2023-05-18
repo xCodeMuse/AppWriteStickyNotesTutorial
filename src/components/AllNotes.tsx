@@ -1,6 +1,6 @@
 import React from "react";
 import useNote from "../contexts/useNote";
-import Note from "./Note";
+import NoteCard from "./NoteCard";
 
 const AllNotes = () => {
     const { notes } = useNote();
@@ -17,7 +17,7 @@ const AllNotes = () => {
         <div className="flex flex-wrap gap-y-4">
             {notes.map((note, i) => (
                 <div className="w-full px-2 md:w-1/2 lg:w-1/3 xl:w-1/4 h-full" key={note.$id}>
-                    <Note note={note} bgColor={colorCodes[i % colorCodes.length]} />
+                    <NoteCard note={note} bgColor={colorCodes[i % colorCodes.length]} />
                 </div>
             ))}
         </div>

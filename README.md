@@ -1,46 +1,69 @@
-# Getting Started with Create React App
+# StickyTrack - Track Notes, Track Time, Stay Organized
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+StickyTrack is an intuitive task management application that combines the convenience of sticky notes with powerful tracking features. With StickyTrack, you can easily stay organized and manage your tasks effectively.
 
-## Available Scripts
+## Getting Started
 
-In the project directory, you can run:
+1. Create a new React app using Create React App.
+2. Install the necessary dependencies by running the following command:\
+   `$ npm install appwrite react-router-dom`
 
-### `npm start`
+3. Install Tailwind CSS as a development dependency by running the command:\
+   `$ npm install -D tailwindcss`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+4. Configure Tailwind CSS by running the following command:\
+   `$ npx tailwindcss init`
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Appwrite
 
-### `npm test`
+#### What is Appwrite and why do we need it?
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Appwrite is an open-source backend server infrastructure that simplifies the development of web applications by providing a wide range of pre-built APIs. We need Appwrite because it provides a NoSQL database and API endpoints, allowing developers to easily store and retrieve data.
 
-### `npm run build`
+#### How to configure Appwrite in our project?
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+To configure Appwrite in your project, follow these steps:
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+1. Open [Appwrite Cloud](https://cloud.appwrite.io/) and create a new project.
+2. Choose the "Web App" platform and provide a name for your app.
+3. In the hostname field, enter your domain name without any protocol or port (e.g., "localhost"). Be cautious as incorrect configuration can lead to CORS errors.
+4. Proceed with the next steps and save the connection URL (End Point) and then navigate to the dashboard.
+5. Create a new database and within the database, create a new collection.
+6. In the collection settings, add roles and assign appropriate permissions for create, read, update, and delete operations. For example, create an "any" role and grant all available permissions.
+7. Define the necessary attributes for the collection. In our case, we will create four attributes:
+    - `title`: A string type attribute to store the title of the note.
+    - `description`: A string type attribute to store the description of the note.
+    - `expireAt`: A date type attribute to track the expiration date of the note.
+    - `imageId`: A string type attribute to store the associated image ID for the note.
+8. Create a new storage to handle image uploads and storage in the designated bucket.
+9. Configure permissions in the storage settings similar to the collection settings.
+10. Take note of the Project ID, Database ID, Collection ID, and Bucket ID as they will be required to access and store data in the database.
+11. To learn more about the configuration of Appwrite in our project, refer to the [src/appwrite/README.md](./src/appwrite/README.md).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+\
+ By following these steps, you will be able to configure Appwrite in your project.
 
-### `npm run eject`
+## constant.ts
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+In this file, we have provided the essential credentials like the Appwrite project ID, database ID, collection ID, and endpoint. These credentials are crucial for establishing a secure connection with the Appwrite backend and facilitating effective data management within your project.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## ./context
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+In this directory, you will find the NoteContext, responsible for efficient management of notes within the local memory. Additionally, the LoaderContext provides comprehensive control over the global loader. To know more, [click here](./src/context/README.md)
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## ./helpers
 
-## Learn More
+In this directory, you will find the essential asynchronous operations associated with the sticky notes, seamlessly integrated with the Appwrite backend. To know more, [click here](./src/helpers/README.md)
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## ./components
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+This directory houses all the indispensable components required for effective note management. You will discover components such as the form, note card, and note list, which collectively contribute to an intuitive and streamlined user experience. To know more, [click here](./src/components/README.md)
+
+## ./pages
+
+This directory encompasses all the routing pages essential for seamless navigation within the application.
+
+---
+
+\
+With these components, context, helpers, and routing pages, StickyTrack empowers you to effortlessly manage and organize your tasks. The intuitive interface, combined with seamless integration with the Appwrite backend, ensures a smooth user experience. Stay productive, track your notes, and make the most out of your time with StickyTrack.

@@ -11,7 +11,7 @@ type Props = {
     bgColor: string;
 };
 
-const Note = ({ note, bgColor }: Props) => {
+const NoteCard = ({ note, bgColor }: Props) => {
     const [imgUrl, setImgUrl] = useState<string>();
     const [expiryPercentage, setExpiryPercentage] = useState(0);
 
@@ -103,4 +103,4 @@ const Note = ({ note, bgColor }: Props) => {
     );
 };
 
-export default Note;
+export default NoteCard;
