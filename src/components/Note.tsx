@@ -8,9 +8,10 @@ import useLoader from "../contexts/useLoader";
 
 type Props = {
     note: IDBNote;
+    bgColor: string;
 };
 
-const Note = ({ note }: Props) => {
+const Note = ({ note, bgColor }: Props) => {
     const [imgUrl, setImgUrl] = useState<string>();
     const [expiryPercentage, setExpiryPercentage] = useState(0);
 
@@ -40,20 +41,6 @@ const Note = ({ note }: Props) => {
         loader(false);
     };
 
-    const getStickyColor = () => {
-        const colorCodes: string[] = [
-            "bg-[#c6f2a2]",
-            "bg-[#aea2f2]",
-            "bg-[#7afcff]",
-            "bg-[#feff9c]",
-            "bg-[#fff740]",
-        ];
-
-        const index = Math.floor(Math.random() * colorCodes.length);
-
-        return colorCodes[index];
-    };
-
     const getDate = (ISODate: string) => {
         const date = new Date(ISODate);
 
@@ -65,7 +52,7 @@ const Note = ({ note }: Props) => {
     };
 
     return (
-        <div className={`rounded-lg border flex flex-wrap content-between ${getStickyColor()}`}>
+        <div className={`rounded-lg border flex flex-wrap content-between ${bgColor}`}>
             <div className="relative w-full">
                 <Link to={`/note/${note.$id}`}>
                     <div className="p-4 pb-0">
