@@ -1,4 +1,4 @@
-import React, { FormEvent, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
 import uploadImage from "../helpers/uploadImage";
 import useNote from "../contexts/useNote";
 import { IDBNote } from "../interfaces/Note";
@@ -13,6 +13,7 @@ const NoteForm = ({ note, created, updated }: Props) => {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [expireAt, setExpireAt] = useState<Date>(new Date());
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
 
     const { add, modify } = useNote();
 
@@ -41,11 +42,29 @@ const NoteForm = ({ note, created, updated }: Props) => {
         if (isDone) {
             setTitle("");
             setDescription("");
+            setImagePreviewUrl(null);
             setExpireAt(new Date());
             if (imageRef.current) imageRef.current.value = "";
 
             if (note && updated) updated();
             if (created) created();
+        }
+    };
+
+    const fileSelected = (e: ChangeEvent<HTMLInputElement>) => {
+        const allowedExt = ["image/jpg", "image/jpeg", "image/png"];
+
+        if (e.target && e.target.files && e.target.files.length > 0) {
+            const file = e.target.files[0];
+
+            if (!allowedExt.includes(file.type.toLowerCase())) {
+                if (imageRef.current) imageRef.current.value = "";
+                return;
+            }
+
+            setImagePreviewUrl(URL.createObjectURL(file));
+        } else {
+            setImagePreviewUrl(null);
         }
     };
 
@@ -76,10 +95,17 @@ const NoteForm = ({ note, created, updated }: Props) => {
                 onChange={(e) => setDescription(e.target.value)}
             ></textarea>
 
+            {imagePreviewUrl ? (
+                <div className="rounded overflow-hidden mb-3">
+                    <img src={imagePreviewUrl} alt={imagePreviewUrl} />
+                </div>
+            ) : null}
+
             <input
                 className="block w-full p-1 text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 mb-3"
                 type="file"
                 ref={imageRef}
+                onChange={fileSelected}
             />
 
             <button
